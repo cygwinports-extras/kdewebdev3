@@ -1,9 +1,0 @@
-usr/bin/kimagemapeditor.exe
-usr/lib/kde3/*kimagemapeditor.*
-usr/share/applications/kde/kimagemapeditor.desktop
-usr/share/apps/kimagemapeditor/
-usr/share/icons/hicolor/*/apps/kimagemapeditor.png
-usr/share/icons/locolor/*/apps/kimagemapeditor.png
-usr/share/services/kimagemapeditorpart.desktop
-usr/share/doc/Cygwin/kimagemapeditor-*.README
-usr/share/doc/kimagemapeditor-*/

@@ -1,0 +1,107 @@
+inherit kde3
+
+NAME="kdewebdev3"
+VERSION=3.5.10
+RELEASE=11
+CATEGORY="Devel"
+SUMMARY="KDE 3 web development suite"
+DESCRIPTION="KDE web development suite:
+* kfilereplace: multiple-file search and replace tool
+* kimagemapeditor: image map editor
+* klinkstatus: link validity checker
+* kommander: GUI script builder and executor tool
+* kxsldbg: XSL debugger
+* quanta: web page IDE"
+
+PATCH_URI+="
+	fedora/kdewebdev-3.5.10-fix-freehand-crash.patch
+	fedora/kdewebdev-3.5.10-gcc46.patch
+	fedora/kdewebdev-3.5.10-docbParseFile.patch
+"
+
+PKG_NAMES="kommander3 kxsldbg quanta"
+kommander3_CONTENTS="
+	usr/bin/cygkommander*-0.dll
+	usr/bin/kmdr-*.exe
+	usr/lib/kde3/cygkommander_part.dll
+	usr/lib/kde3/libkommander_part.la
+	usr/share/applnk/.hidden/kmdr-executor.desktop
+	usr/share/apps/kmdr-editor/
+	usr/share/apps/kommander/
+	usr/share/icons/crystalsvg/*/apps/kommander.*
+	usr/share/mimelnk/application/x-kommander.desktop
+	usr/share/services/kommander_part.desktop
+"
+kxsldbg_SUMMARY="KDE XSL debugger"
+kxsldbg_CONTENTS="
+	usr/bin/kxsldbg.exe
+	usr/bin/xsldbg.exe
+	usr/lib/kde3/cygkxsldbgpart.dll
+	usr/lib/kde3/libkxsldbgpart.la
+	usr/share/applications/kde/kxsldbg.desktop
+	usr/share/apps/kxsldbg/
+	usr/share/apps/kxsldbgpart/
+	usr/share/doc/HTML/en/kxsldbg/
+	usr/share/doc/HTML/en/xsldbg/
+	usr/share/icons/hicolor/*/actions/*
+	usr/share/services/kxsldbg_part.desktop
+"
+quanta_SUMMARY="KDE web page IDE"
+quanta_REQUIRES="kommander3 kxsldbg tidy"
+quanta_CONTENTS="
+	etc/postinstall/${NAME}.sh
+	usr/bin/quanta.exe
+	usr/lib/kde3/cygkfilereplacepart.dll
+	usr/lib/kde3/cygkimagemapeditor.dll
+	usr/lib/kde3/cygklinkstatuspart.dll
+	usr/lib/kde3/libkfilereplacepart.la
+	usr/lib/kde3/libkimagemapeditor.la
+	usr/lib/kde3/libklinkstatuspart.la
+	usr/lib/kde3/quantadebuggerdbgp.dll
+	usr/lib/kde3/quantadebuggerdbgp.la
+	usr/lib/kde3/quantadebuggergubed.dll
+	usr/lib/kde3/quantadebuggergubed.la
+	usr/share/applications/kde/quanta.desktop
+	usr/share/apps/kafkapart/
+	usr/share/apps/katepart/
+	usr/share/apps/kdevappwizard/
+	usr/share/apps/kfilereplace/
+	usr/share/apps/kfilereplacepart/
+	usr/share/apps/kimagemapeditor/
+	usr/share/apps/klinkstatus/
+	usr/share/apps/klinkstatuspart/
+	usr/share/apps/quanta/
+	usr/share/config.kcfg/klinkstatus.kcfg
+	usr/share/doc/HTML/en/quanta/
+	usr/share/doc/quanta/
+	usr/share/icons/crystalsvg/16x16/actions/bug.png
+	usr/share/icons/hicolor/*/apps/quanta.*
+	usr/share/mimelnk/application/x-webprj.desktop
+	usr/share/services/kfilereplacepart.desktop
+	usr/share/services/kimagemapeditorpart.desktop
+	usr/share/services/klinkstatus_part.desktop
+	usr/share/services/quanta_preview_config.desktop
+	usr/share/services/quantadebuggerdbgp.desktop
+	usr/share/services/quantadebuggergubed.desktop
+	usr/share/servicetypes/quantadebugger.desktop
+"
+PKG_IGNORE="
+	usr/include/kde3/kommander*.h
+	usr/include/kde3/specials.h
+	usr/lib/kde3/devel/libkommander*.dll.a
+	usr/lib/libkommander*.la
+	usr/share/doc/${NAME}
+"
+
+src_install() {
+	cd ${B}
+	kde3_install
+
+	# conflicts with KDE 4/5
+	rm -f ${D}/usr/bin/{kfilereplace,kimagemapeditor,klinkstatus}.exe
+	rm -f ${D}/usr/share/applications/kde/{kfilereplace,kimagemapeditor,klinkstatus}.desktop
+	rm -fr ${D}/usr/share/doc/HTML/en/{kfilereplace,kimagemapeditor,klinkstatus}/
+	rm -f ${D}/usr/share/icons/*/*/apps/{kfilereplace,kimagemapeditor,klinkstatus}.*
+	rm -f ${D}/usr/share/applications/kde/kmdr-editor.desktop
+	rm -fr ${D}/usr/share/doc/HTML/en/kommander/
+}
